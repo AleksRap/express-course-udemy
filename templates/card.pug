@@ -1,0 +1,27 @@
+extends layout/layout
+
+block content
+  h1 Корзина
+
+  #card
+    if courses.length
+      table
+        thead
+          tr
+            th Название курса
+            th Кол-во
+            th Действия
+        tbody
+          each course in courses
+            tr
+              td= course.title
+              td= course.count
+              td
+                button.btn.btn-small(data-id=course.id data-action="delete") Удалить
+
+      p
+        strong Цена:
+        =' '
+        span.price= price
+    else
+      p Корзина пуста

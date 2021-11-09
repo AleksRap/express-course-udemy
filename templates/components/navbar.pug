@@ -1,0 +1,15 @@
+-
+  links = [
+    { id: 'main', link: '/', name: 'Главная' },
+    { id: 'courses', link: '/courses', name: 'Курсы' },
+    { id: 'add', link: '/add', name: 'Добавить курс' },
+    { id: 'card', link: '/card', name: 'Корзина' },
+  ]
+
+nav
+  .nav-wrapper
+    a(href="#" class="brand-logo") Courses App
+    ul#nav-mobile.right.hide-on-med-and-down
+      each link in links
+        li(class=link.id === activeId && 'active')
+          a(href=link.link)= link.name

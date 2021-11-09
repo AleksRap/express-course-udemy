@@ -1,0 +1,21 @@
+extends layout/layout
+
+block content
+  -
+    inputs = [
+      { id: 'title', type: 'text', name: 'Название курса', errorText: 'Введите название', value: course.title },
+      { id: 'price', type: 'number', name: 'Цена курса', errorText: 'Введите цену', min: 1, value: course.price },
+      { id: 'img', type: 'text', name: 'URL картинки', errorText: 'Введите URL картинки', value: course.img },
+    ]
+
+  h1= `Редактировать курс ${course.title}`
+  form(action="/courses/edit" method="POST")
+    each input in inputs
+      .input-field.col.s6
+        input.validate(type=input.type id=input.id name=input.id required min=input.type === 'number' ? input.min : false value=input.value)
+        label(for=input.id)= input.name
+        span.helper-text(data-error=input.errorText)
+
+    input(hidden value=course.id name="id")
+
+    button.btn.btn-primary Редактировать курс

@@ -1,0 +1,24 @@
+extends layout/layout
+
+block content
+  h1 Курсы
+
+  if courses.length
+    each course in courses
+      .row
+        .col.s6.offset-s3
+          .card
+            .card-image
+              img(src=course.img alt=course.title)
+            .card-content
+              span.card-title= course.title
+              p.price= course.price
+            .card-action.actions
+              a(href=`/courses/${course.id}`) Открыть курс
+              a(href=`/courses/${course.id}/edit?allow=true`) Редактировать курс
+              form.form(action="/card/add" method="POST")
+                input(type="hidden" name="id" value=course.id)
+                button.btn.btn-primary(type="submit") Купить
+  else
+    p Курсов пока нет
+

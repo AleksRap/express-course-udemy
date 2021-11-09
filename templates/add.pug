@@ -1,0 +1,19 @@
+extends layout/layout
+
+block content
+  -
+    inputs = [
+      { id: 'title', type: 'text', name: 'Название курса', errorText: 'Введите название' },
+      { id: 'price', type: 'number', name: 'Цена курса', errorText: 'Введите цену', min: 1 },
+      { id: 'img', type: 'text', name: 'URL картинки', errorText: 'Введите URL картинки' },
+    ]
+
+  h1 Добавить новый курс
+  form(action="/add" method="POST")
+    each input in inputs
+      .input-field.col.s6
+        input.validate(type=input.type id=input.id name=input.id required min=input.type === 'number' ? input.min : false)
+        label(for=input.id)= input.name
+        span.helper-text(data-error=input.errorText)
+
+    button.btn.btn-primary Добавить курс
