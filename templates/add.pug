@@ -8,7 +8,7 @@ block content
       { id: 'img', type: 'text', name: 'URL картинки', errorText: 'Введите URL картинки' },
     ]
 
-  h1 Добавить новый курс
+  h1=title
   form(action="/add" method="POST")
     each input in inputs
       .input-field.col.s6

@@ -1,31 +1,46 @@
-const convertToPriceFormat = (text) => new Intl.NumberFormat('ru-Ru', {
+const toCurrency = (text) => new Intl.NumberFormat('ru-Ru', {
   currency: 'rub',
   style: 'currency'
 }).format(text);
+
+const toDate = (date) => new Intl.DateTimeFormat('ru-RU', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+}).format(new Date(date));
 
 document.addEventListener('DOMContentLoaded', () => {
   const price = document.querySelectorAll('.price');
 
   price.forEach((el) => {
-    el.textContent = convertToPriceFormat(el.textContent);
+    el.textContent = toCurrency(el.textContent);
+  });
+
+  const date = document.querySelectorAll('.date');
+
+  date.forEach((el) => {
+    el.textContent = toDate(el.textContent);
   });
 });
 
-const card = document.querySelector('#card');
+const cart = document.querySelector('#cart');
 
-if (card) {
-  card.addEventListener('click', async (e) => {
+if (cart) {
+  cart.addEventListener('click', async (e) => {
     if (e.target.closest('[data-action="delete"]')) {
       const { id } = e.target.dataset;
 
-      const res = await fetch('/card/remove/' + id, {
+      const res = await fetch('/cart/remove/' + id, {
         method: 'DELETE',
       });
 
-      const cardResponse = await res.json();
+      const cartResponse = await res.json();
 
-      if (cardResponse.courses.length) {
-        const coursesTemplate = cardResponse.courses.map((course) => `
+      if (cartResponse.courses.length) {
+        const coursesTemplate = cartResponse.courses.map((course) => `
            <tr>
               <td>${course.title}</td>
               <td>${course.count}</td>
@@ -35,10 +50,10 @@ if (card) {
           </tr>
         `).join('');
 
-        card.querySelector('tbody').innerHTML = coursesTemplate;
-        card.querySelector('.price').textContent = convertToPriceFormat(cardResponse.price);
+        cart.querySelector('tbody').innerHTML = coursesTemplate;
+        cart.querySelector('.price').textContent = toCurrency(cartResponse.price);
       } else {
-        card.innerHTML = '<p>Корзина пуста</p>'
+        cart.innerHTML = '<p>Корзина пуста</p>'
       }
     }
   });

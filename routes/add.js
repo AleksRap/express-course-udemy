@@ -11,9 +11,19 @@ addRouter.get('/', (req, res) => {
 
 addRouter.post('/', async (req, res) => {
   const { title, price, img } = req.body;
-  const course = new Course(title, price, img);
 
-  await course.save();
+  const course = new Course({
+    title,
+    price,
+    img,
+    userId: req.user,
+  });
 
-  res.redirect(URL.courses);
+  try {
+    await course.save();
+
+    res.redirect(URL.courses);
+  } catch (e) {
+    console.log(e);
+  }
 })

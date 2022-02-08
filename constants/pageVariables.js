@@ -8,17 +8,21 @@ export const PAGE_CONSTANTS = {
     activeId: 'courses',
   },
   add: {
-    title: 'Добавить курс',
+    title: 'Добавить новый курс',
     activeId: 'add',
   },
-  card: {
+  cart: {
     title: 'Корзина',
-    activeId: 'card',
+    activeId: 'cart',
+  },
+  orders: {
+    title: 'Мои заказы',
+    activeId: 'orders',
   },
   edit: {
     activeId: 'courses',
   },
   error: {
-    title: '404',
+    title: '404 page',
   },
 };

@@ -1,7 +1,7 @@
 extends layout/layout
 
 block content
-  h1 Курсы
+  h1=title
 
   if courses.length
     each course in courses
@@ -16,7 +16,7 @@ block content
             .card-action.actions
               a(href=`/courses/${course.id}`) Открыть курс
               a(href=`/courses/${course.id}/edit?allow=true`) Редактировать курс
-              form.form(action="/card/add" method="POST")
+              form.form(action="/cart/add" method="POST")
                 input(type="hidden" name="id" value=course.id)
                 button.btn.btn-primary(type="submit") Купить
   else

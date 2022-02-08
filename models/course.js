@@ -1,76 +1,29 @@
-import fs from 'fs';
-import path from 'path';
-import { v4 } from 'uuid';
+import mongoose from 'mongoose';
+const { Schema, model } = mongoose;
 
-export class Course {
-  id = v4();
-
-  constructor(title, price, img) {
-    this.title = title;
-    this.price = price;
-    this.img = img;
+const schema = new Schema({
+  title: {
+    type: String,
+    require: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  img: String,
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
+});
 
-  toJSON() {
-    return {
-      id: this.id,
-      title: this.title,
-      price: this.price,
-      img: this.img
-    };
-  }
+schema.method('toClient', function() {
+  const course = this.toObject();
 
-  async save() {
-    const courses = await Course.getAll();
-    courses.push(this.toJSON());
+  course.id = course._id;
+  delete course._id;
 
-    return new Promise((res, rej) => {
-      fs.writeFile(
-        path.resolve('data', 'courses.json'),
-        JSON.stringify(courses),
-        (err) => {
-          if (err) rej(err);
-          else res();
-        }
-      );
-    });
-  }
+  return course;
+})
 
-  static async update(course) {
-    const courses = await Course.getAll();
-    const index = courses.findIndex(({ id }) => course.id === id);
-
-    if (index !== -1) {
-      courses[index] = course
-
-      return new Promise((res, rej) => {
-        fs.writeFile(
-          path.resolve('data', 'courses.json'),
-          JSON.stringify(courses),
-          (err) => {
-            if (err) rej(err);
-            else res();
-          }
-        );
-      });
-    }
-  }
-
-  static getAll() {
-    return new Promise((res, rej) => {
-      fs.readFile(
-        path.resolve('data', 'courses.json'),
-        'utf-8',
-        (err, content) => {
-          if (err) rej(err);
-          else res(JSON.parse(content));
-        }
-      );
-    })
-  }
-
-  static async getById(findId) {
-    const courses = await Course.getAll();
-    return courses.find(({ id }) => id === findId);
-  }
-}
+export const Course = model('Course', schema);

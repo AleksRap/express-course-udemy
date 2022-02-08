@@ -9,7 +9,8 @@ block content
     ]
 
   h1= `Редактировать курс ${course.title}`
-  form(action="/courses/edit" method="POST")
+
+  form.course-form(action="/courses/edit" method="POST")
     each input in inputs
       .input-field.col.s6
         input.validate(type=input.type id=input.id name=input.id required min=input.type === 'number' ? input.min : false value=input.value)
@@ -18,4 +19,8 @@ block content
 
     input(hidden value=course.id name="id")
 
-    button.btn.btn-primary Редактировать курс
+    button.btn.btn-primary(type="submit") Редактировать курс
+
+  form(action="/courses/remove" method="POST")
+    input(type="hidden" name="id" value=course.id)
+    button.btn.red Удалить курс

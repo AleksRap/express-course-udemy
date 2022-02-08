@@ -1,9 +1,9 @@
 extends layout/layout
 
 block content
-  h1 Корзина
+  h1=title
 
-  #card
+  #cart
     if courses.length
       table
         thead
@@ -23,5 +23,8 @@ block content
         strong Цена:
         =' '
         span.price= price
+
+      form(action="/orders" method="POST")
+        button.btn(type="submit") Сделать заказ
     else
       p Корзина пуста
